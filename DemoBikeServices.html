@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Discover motorcycle detailing, PPF, vinyl wrapping, paint correction and protective coatings in Pune.">
+  <meta name="theme-color" content="#101110">
+  <title>REVIVE Moto Studio | Pune</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #101110;
+      --panel: #191b18;
+      --panel-light: #22251f;
+      --text: #f5f5ed;
+      --muted: #a7ada1;
+      --accent: #cefa69;
+      --border: rgba(255,255,255,.12);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 95px; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      line-height: 1.65;
+    }
+    body.modal-open { overflow: hidden; }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button:focus-visible, a:focus-visible,
+    input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 5px;
+    }
+    ::selection { background: var(--accent); color: var(--bg); }
+    .container { width: min(1200px, 90%); margin: auto; }
+    .section { padding: 110px 0; }
+    .eyebrow {
+      display: flex; align-items: center; gap: 10px;
+      color: var(--accent); text-transform: uppercase;
+      font-size: 11px; font-weight: 800; letter-spacing: 2px;
+      margin: 0 0 20px;
+    }
+    .eyebrow::before {
+      content: ''; width: 24px; height: 2px; background: currentColor;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 {
+      font-family: 'Barlow Condensed', Impact, sans-serif;
+      text-transform: uppercase; line-height: .95;
+    }
+    h2 { font-size: clamp(46px, 6vw, 78px); letter-spacing: -.8px; margin-bottom: 24px; }
+    .muted { color: var(--muted); }
+    .button {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 26px; padding: 16px 23px; border-radius: 7px;
+      border: 1px solid var(--accent); background: var(--accent);
+      color: #14180d; font-size: 13px; font-weight: 800;
+      transition: transform .25s, background .25s, box-shadow .25s;
+    }
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 35px #cefa6920;
+      background: #dcff98;
+    }
+    .button.outline { background: transparent; color: var(--text); border-color: var(--border); }
+    .button.outline:hover { border-color: var(--accent); }
+
+    /* Navigation */
+    header {
+      position: fixed; inset: 0 0 auto; z-index: 50;
+      background: rgba(16,17,16,.88); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { min-height: 83px; display: flex; align-items: center; justify-content: space-between; gap: 25px; }
+    .logo { font-weight: 800; font-size: 25px; letter-spacing: -1.5px; line-height: 1; }
+    .logo span { color: var(--accent); }
+    .logo small { display: block; font-size: 8px; letter-spacing: 3px; margin-top: 8px; color: var(--muted); }
+    .nav-links { display: flex; gap: 30px; align-items: center; }
+    .nav-links a { font-size: 12px; font-weight: 700; color: #c2c6bc; }
+    .nav-links a:hover { color: var(--accent); }
+    .menu-button { display: none; border: 1px solid var(--border); background: none; color: white; padding: 9px 13px; border-radius: 6px; }
+
+    /* Hero */
+    .hero {
+      min-height: 850px; min-height: min(950px, 100svh);
+      position: relative; display: flex; align-items: center;
+      overflow: hidden; padding: 155px 0 105px;
+    }
+    .hero-image {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: 65% center;
+      animation: imageEntrance 1.6s ease-out both;
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, #101110f5 0%, #101110c4 35%, #10111020 100%),
+                  linear-gradient(0deg, #101110 0%, transparent 35%);
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 {
+      font-size: clamp(74px, 10.5vw, 145px);
+      letter-spacing: -2px; margin-bottom: 25px; max-width: 780px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-description { max-width: 430px; color: #bfc3b7; font-size: 14px; margin-bottom: 32px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+    .hero-bottom {
+      position: absolute; bottom: 26px; left: 5%; right: 5%;
+      z-index: 2; display: flex; justify-content: space-between;
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+    }
+    .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-right: 9px; }
+    .hero-content > * { animation: rise .8s ease both; }
+    .hero-content h1 { animation-delay: .1s; }
+    .hero-description { animation-delay: .2s; }
+    .hero-actions { animation-delay: .3s; }
+
+    /* Moving service strip */
+    .ticker { background: var(--accent); color: #17200c; overflow: hidden; padding: 16px 0; }
+    .ticker-track { display: flex; width: max-content; animation: ticker 35s linear infinite; }
+    .ticker-group { display: flex; align-items: center; flex-shrink: 0; }
+    .ticker span { font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 0 26px; }
+    .ticker b { font-size: 18px; }
+
+    /* Services */
+    .section-top { display: flex; justify-content: space-between; align-items: end; gap: 35px; margin-bottom: 40px; }
+    .section-top h2 { margin-bottom: 0; }
+    .section-top > p { max-width: 335px; font-size: 13px; margin-bottom: 0; }
+    .filters { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 28px; }
+    .filter {
+      background: transparent; color: var(--muted); border: 1px solid var(--border);
+      border-radius: 30px; padding: 9px 18px; font-size: 11px; font-weight: 700;
+    }
+    .filter[aria-pressed="true"] { background: var(--accent); color: #18200f; border-color: var(--accent); }
+    .service-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .service-card {
+      background: var(--panel); padding: 27px 23px; border: 1px solid var(--border);
+      border-radius: var(--radius); display: flex; flex-direction: column;
+      transition: transform .3s, border-color .3s; min-height: 300px;
+    }
+    .service-card:hover { transform: translateY(-7px); border-color: #cefa6970; }
+    .service-card[hidden] { display: none; }
+    .service-number { color: var(--accent); font-size: 12px; font-weight: 800; margin-bottom: 37px; }
+    .service-card h3 { font-size: 29px; line-height: 1; margin-bottom: 14px; }
+    .service-card p { color: var(--muted); font-size: 12px; margin-bottom: 25px; }
+    .service-link {
+      margin-top: auto; padding: 0; background: none; border: none;
+      color: var(--text); text-align: left; font-size: 11px; font-weight: 800;
+      display: flex; justify-content: space-between;
+    }
+    .service-link span { color: var(--accent); }
+
+    /* Feature and gallery */
+    .feature { background: #171915; border-block: 1px solid var(--border); }
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 80px; }
+    .feature-photo { position: relative; }
+    .feature-photo img { width: 100%; height: 530px; object-fit: cover; border-radius: var(--radius); }
+    .photo-label {
+      position: absolute; bottom: 20px; left: 20px; right: 20px;
+      background: #101110dc; backdrop-filter: blur(10px);
+      padding: 18px 20px; border: 1px solid var(--border); border-radius: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 11px;
+    }
+    .photo-label span:last-child { color: var(--accent); }
+    .feature-copy > p { font-size: 13px; }
+    .benefit { padding: 19px 0; border-bottom: 1px solid var(--border); display: flex; gap: 18px; }
+    .benefit > span { color: var(--accent); font-size: 13px; }
+    .benefit h4 { margin: 0 0 5px; font-size: 13px; }
+    .benefit p { margin: 0; font-size: 12px; color: var(--muted); }
+    .feature-copy .button { margin-top: 28px; }
+    .gallery { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 18px; }
+    .gallery-item { position: relative; height: 350px; overflow: hidden; border-radius: var(--radius); margin: 0; background: var(--panel); }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s; }
+    .gallery-item:hover img { transform: scale(1.07); }
+    .gallery-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent 35%, #000c); }
+    .gallery-item figcaption { position: absolute; bottom: 23px; left: 23px; right: 23px; z-index: 1; }
+    .gallery-item small { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); }
+    .gallery-item h3 { font-size: 30px; margin: 9px 0 0; }
+    .gallery-note { font-size: 10px; color: var(--muted); margin-top: 15px; }
+
+    /* Process */
+    .process { background: var(--accent); color: #17200d; }
+    .process .eyebrow { color: #354a1d; }
+    .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 45px; margin-top: 45px; }
+    .step { border-top: 1px solid #17200d40; padding-top: 23px; }
+    .step-number { font-family: 'Barlow Condensed', sans-serif; font-size: 50px; opacity: .45; }
+    .step h3 { font-size: 32px; margin: 22px 0 14px; }
+    .step p { font-size: 13px; max-width: 290px; color: #38452a; }
+
+    /* FAQ */
+    .faq-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; }
+    .faq-intro p { max-width: 300px; font-size: 13px; }
+    details { border-bottom: 1px solid var(--border); }
+    summary {
+      list-style: none; cursor: pointer; padding: 23px 0;
+      font-size: 14px; font-weight: 700; display: flex; justify-content: space-between; gap: 20px;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: '+'; color: var(--accent); font-size: 22px; line-height: 1; }
+    details[open] summary::after { content: '−'; }
+    details p { font-size: 13px; color: var(--muted); padding-right: 25px; }
+
+    /* Contact */
+    .contact { padding-top: 0; }
+    .contact-panel {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 25px;
+      padding: 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 70px;
+    }
+    .contact-copy p { font-size: 13px; max-width: 330px; }
+    .location { margin-top: 35px; display: flex; gap: 13px; font-size: 13px; }
+    .location span { color: var(--accent); }
+    .demo-tag { display: inline-block; margin-top: 25px; padding: 6px 12px; background: #cefa6910; color: var(--accent); border-radius: 5px; font-size: 10px; }
+    form { display: grid; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    label { display: grid; gap: 7px; font-size: 11px; font-weight: 700; }
+    input, select, textarea {
+      width: 100%; border: 1px solid #ffffff20; border-radius: 7px;
+      background: #101110; padding: 13px 14px; color: var(--text); font-size: 12px;
+    }
+    textarea { resize: vertical; min-height: 90px; }
+    .form-note { color: var(--muted); font-size: 10px; margin: 0; }
+    .form-success { padding: 16px; border: 1px solid var(--accent); border-radius: 8px; color: var(--accent); font-size: 12px; }
+    .form-success[hidden] { display: none; }
+
+    footer { border-top: 1px solid var(--border); padding: 35px 0; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 25px; }
+    .footer-inner p { font-size: 10px; color: var(--muted); margin: 0; }
+    .back-top { font-size: 11px; color: var(--accent); }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes imageEntrance { from { transform: scale(1.07); } to { transform: scale(1); } }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    @media (min-width: 901px) {
+      .service-card:nth-child(1), .service-card:nth-child(7) { background: #22281b; }
+    }
+    @media (max-width: 1050px) {
+      .service-grid { grid-template-columns: repeat(2, 1fr); }
+      .feature-grid { gap: 40px; }
+      .contact-panel { padding: 40px; gap: 35px; }
+      .nav-links { gap: 18px; }
+    }
+    @media (max-width: 760px) {
+      .section { padding: 75px 0; }
+      .nav { min-height: 74px; }
+      .nav > .button { display: none; }
+      .menu-button { display: block; }
+      .nav-links {
+        display: none; position: absolute; top: 74px; left: 0; right: 0;
+        background: #101110; padding: 25px 5%; border-bottom: 1px solid var(--border);
+        flex-direction: column; align-items: stretch;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 8px 0; }
+      .hero { min-height: 760px; padding-top: 140px; }
+      .hero::after { background: linear-gradient(90deg, #101110eb, #10111055), linear-gradient(0deg, #101110, transparent 70%); }
+      .hero-image { object-position: 61% center; }
+      .hero h1 { font-size: clamp(72px, 15vw, 110px); }
+      .hero-bottom span:last-child { display: none; }
+      .section-top { display: block; }
+      .section-top > p { margin-top: 22px; }
+      .feature-grid, .faq-layout, .contact-panel { grid-template-columns: 1fr; gap: 35px; }
+      .feature-photo img { height: 390px; }
+      .gallery { grid-template-columns: 1fr; }
+      .gallery-item { height: 340px; }
+      .process-grid { grid-template-columns: 1fr; gap: 20px; }
+      .step { display: grid; grid-template-columns: 50px 1fr; gap: 0 20px; }
+      .step-number { grid-row: span 2; }
+      .step h3 { margin-top: 8px; }
+      .step p { grid-column: 2; max-width: none; }
+      .contact { padding-top: 0; }
+      .contact-panel { padding: 30px 23px; }
+      .footer-inner { flex-wrap: wrap; }
+    }
+    @media (max-width: 420px) {
+      .service-grid { grid-template-columns: 1fr; }
+      .service-card { min-height: 250px; }
+      .service-number { margin-bottom: 25px; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-actions .button { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="logo" href="#" aria-label="Revive Moto Studio home">
+        REVIVE<span>®</span>
+        <small>MOTO STUDIO / PUNE</small>
+      </a>
+
+      <div class="nav-links" id="navigation">
+        <a href="#services">Our services</a>
+        <a href="#approach">The approach</a>
+        <a href="#gallery">Inspiration</a>
+        <a href="#faq">FAQs</a>
+        <a href="#contact">Get in touch</a>
+      </div>
+
+      <a class="button" href="#contact">Let’s talk bikes <span>↗</span></a>
+
+      <button class="menu-button" aria-controls="navigation"
+              aria-expanded="false" aria-label="Open menu">☰</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <img
+        class="hero-image"
+        src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=2200&q=85"
+        alt="Motorcycle with detailed mechanical finishes"
+        fetchpriority="high"
+      >
+
+      <div class="container hero-content">
+        <p class="eyebrow">Motorcycle detailing • Pune</p>
+        <h1 id="hero-title">MORE THAN<br>A BIKE.<br><span>YOUR STATEMENT.</span></h1>
+        <p class="hero-description">
+          From everyday rides to weekend obsessions. Explore detailing,
+          paint protection and custom finishes for the machine you love.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="#services">Explore the services <span>↗</span></a>
+          <a class="button outline" href="#contact">Plan your bike’s makeover</a>
+        </div>
+      </div>
+
+      <div class="hero-bottom">
+        <span><i class="status-dot"></i>Built around your ride</span>
+        <span>Scroll to discover ↓</span>
+        <span>Pune, Maharashtra</span>
+      </div>
+    </section>
+
+    <div class="ticker" aria-label="Detailing, protection and custom finishes">
+      <div class="ticker-track">
+        <div class="ticker-group">
+          <span>Protect your paint</span><b>✳</b>
+          <span>Own your finish</span><b>✳</b>
+          <span>Ride with pride</span><b>✳</b>
+          <span>Every detail matters</span><b>✳</b>
+        </div>
+        <div class="ticker-group" aria-hidden="true">
+          <span>Protect your paint</span><b>✳</b>
+          <span>Own your finish</span><b>✳</b>
+          <span>Ride with pride</span><b>✳</b>
+          <span>Every detail matters</span><b>✳</b>
+        </div>
+      </div>
+    </div>
+
+    <section class="section container" id="services">
+      <div class="section-top">
+        <div>
+          <p class="eyebrow">Care without compromise</p>
+          <h2>GOOD BIKES.<br>EXCEPTIONAL FINISHES.</h2>
+        </div>
+        <p class="muted">
+          Clean it. Correct it. Protect it. Find the right treatment
+          for your motorcycle, its condition and your riding routine.
+        </p>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filter services">
+        <button class="filter" data-filter="all" aria-pressed="true">All services</button>
+        <button class="filter" data-filter="protection" aria-pressed="false">Protection</button>
+        <button class="filter" data-filter="restoration" aria-pressed="false">Paint & finish</button>
+        <button class="filter" data-filter="care" aria-pressed="false">Wash & care</button>
+      </div>
+
+      <div class="service-grid">
+        <article class="service-card" data-category="protection">
+          <span class="service-number">01 / PROTECT & PERSONALISE</span>
+          <h3>PPF &<br>Vinyl Wrapping</h3>
+          <p>Explore clear paint protection or change your style with a fresh vinyl colour and finish.</p>
+          <button class="service-link" data-service="PPF & Vinyl Wrapping">Discuss your finish <span>↗</span></button>
+        </article>
+
+        <article class="service-card" data-category="restoration">
+          <span class="service-number">02 / RESTORE</span>
+          <h3>Denting &<br>Painting</h3>
+          <p>Panel assessment, dent repair and repainting options for a finish that feels like yours again.</p>
+          <button class="service-link" data-service="Denting & Painting">Discuss paintwork <span>↗</span></button>
+        </article>
+
+        <article class="service-card" data-category="restoration">
+          <span class="service-number">03 / REFINE</span>
+          <h3>Rubbing &<br>Polishing</h3>
+          <p>Paint correction tailored to surface condition to reduce visible swirls and restore gloss.</p>
+          <button class="service-link" data-service="Rubbing & Polishing">Explore correction <span>↗</span></button>
+        </article>
+
+        <article class="service-card" data-category="care">
+          <span class="service-number">04 / RESET</span>
+          <h3>Deep<br>Cleaning</h3>
+          <p>Detailed cleaning for wheels, exposed components and those easy-to-miss corners.</p>
+          <button class="service-link" data-service="Deep Cleaning">Plan a deep clean <span>↗</span></button>
+        </article>
+
+        <article class="service-card" data-category="protection">
+          <span class="service-number">05 / SHIELD</span>
+          <h3>Ceramic<br>Coating</h3>
+          <p>A prepared surface and a protective coating designed to support gloss and easier maintenance.</p>
+          <button class="service-link" data-service="Ceramic Coating">Explore ceramic <span>↗</span></button>
+        </article>
+
+        <article class="service-card" data-category="care">
+          <span class="service-number">06 / REFRESH</span>
+          <h3>Premium<br>Bike Wash</h3>
+          <p>A considered wash and drying routine to lift road grime and refresh your motorcycle.</p>
+          <button class="service-link" data-service="Premium Bike Wash">Plan a wash <span>↗</span></button>
+        </article>
+
+        <article class="service-card" data-category="protection">
+          <span class="service-number">07 / FINISH</span>
+          <h3>Graphene<br>Coating</h3>
+          <p>Explore graphene-based coating options, with product selection matched to your bike and usage.</p>
+          <button class="service-link" data-service="Graphene Coating">Explore graphene <span>↗</span></button>
+        </article>
+
+        <article class="service-card" data-category="care">
+          <span class="service-number">08 / THE LITTLE THINGS</span>
+          <h3>More Care.<br>More Character.</h3>
+          <p>Ask about chain care, trim refresh, metal polishing and a personalised detailing combination.</p>
+          <button class="service-link" data-service="Custom Detailing">Build your treatment <span>↗</span></button>
+        </article>
+      </div>
+    </section>
+
+    <section class="section feature" id="approach">
+      <div class="container feature-grid">
+        <div class="feature-photo">
+          <img
+            src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=1000&q=85"
+            alt="Motorcycle design and finish inspiration"
+            loading="lazy"
+          >
+          <div class="photo-label">
+            <span>THE DETAILS MAKE THE DIFFERENCE.</span>
+            <span>↗</span>
+          </div>
+        </div>
+
+        <div class="feature-copy">
+          <p class="eyebrow">A thoughtful approach</p>
+          <h2>YOUR RIDE.<br>OUR FULL<br>ATTENTION.</h2>
+          <p class="muted">
+            Great detailing starts with understanding the bike.
+            The finish, the wear, the way you ride — every choice starts there.
+          </p>
+
+          <div class="benefit">
+            <span>01</span>
+            <div>
+              <h4>Inspect before recommending</h4>
+              <p>Match the treatment to the actual condition of the surfaces.</p>
+            </div>
+          </div>
+
+          <div class="benefit">
+            <span>02</span>
+            <div>
+              <h4>Agree on the scope</h4>
+              <p>Discuss preparation, coverage, finish and the quote before work begins.</p>
+            </div>
+          </div>
+
+          <div class="benefit">
+            <span>03</span>
+            <div>
+              <h4>Make aftercare part of the plan</h4>
+              <p>Understand how to wash and maintain your chosen finish.</p>
+            </div>
+          </div>
+
+          <a class="button" href="#contact">Find your treatment <span>↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="gallery">
+      <div class="section-top">
+        <div>
+          <p class="eyebrow">The visual obsession</p>
+          <h2>BUILT TO TURN HEADS.</h2>
+        </div>
+        <p class="muted">A little inspiration for your next finish, refresh or complete transformation.</p>
+      </div>
+
+      <div class="gallery">
+        <figure class="gallery-item">
+          <img
+            src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1000&q=85"
+            alt="Motorcycle styling inspiration"
+            loading="lazy"
+          >
+          <figcaption><small>Style inspiration</small><h3>A statement in every detail.</h3></figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img
+            src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&w=800&q=85"
+            alt="Motorcycle finish inspiration"
+            loading="lazy"
+          >
+          <figcaption><small>Finish inspiration</small><h3>Find your signature.</h3></figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img
+            src="https://images.unsplash.com/photo-1558980664-10e7170b6df8?auto=format&fit=crop&w=800&q=85"
+            alt="Motorcycle care inspiration"
+            loading="lazy"
+          >
+          <figcaption><small>Ride inspiration</small><h3>Ready for the next ride.</h3></figcaption>
+        </figure>
+      </div>
+
+      <p class="gallery-note">Illustrative stock photography. Replace with the studio’s actual work before launch.</p>
+    </section>
+
+    <section class="section process">
+      <div class="container">
+        <p class="eyebrow">From first look to final finish</p>
+        <h2>A BETTER FINISH.<br>IN THREE SIMPLE STEPS.</h2>
+
+        <div class="process-grid">
+          <article class="step">
+            <span class="step-number">01</span>
+            <h3>Tell us about your ride.</h3>
+            <p>Share your bike model, its condition and what you have in mind.</p>
+          </article>
+          <article class="step">
+            <span class="step-number">02</span>
+            <h3>Choose your treatment.</h3>
+            <p>Discuss the inspection, finish options, pricing and expected turnaround.</p>
+          </article>
+          <article class="step">
+            <span class="step-number">03</span>
+            <h3>Meet your refreshed bike.</h3>
+            <p>Review the finish and get the aftercare guidance for your selected service.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="faq">
+      <div class="faq-layout">
+        <div class="faq-intro">
+          <p class="eyebrow">Before you roll in</p>
+          <h2>GOOD<br>QUESTIONS.</h2>
+          <p class="muted">A few things to know before choosing a treatment for your motorcycle.</p>
+          <a href="#contact" class="button outline">Ask about your bike <span>↗</span></a>
+        </div>
+
+        <div>
+          <details>
+            <summary>Should I choose PPF or ceramic coating?</summary>
+            <p>PPF is a physical film that can help protect covered paint from minor impacts and abrasion. Ceramic coating supports surface maintenance and gloss. The right choice depends on the surfaces, riding conditions and budget.</p>
+          </details>
+          <details>
+            <summary>Can a wrap change my bike’s colour?</summary>
+            <p>Vinyl can change the appearance of suitable panels. Coverage, panel condition and finish should be inspected first. Any required vehicle documentation should be checked before a colour change.</p>
+          </details>
+          <details>
+            <summary>How much will my service cost?</summary>
+            <p>Pricing depends on the motorcycle, surface condition, preparation required, product and coverage. Request an assessment for a clear quote.</p>
+          </details>
+          <details>
+            <summary>How long will the treatment take?</summary>
+            <p>A wash and a full protection installation have different time requirements. Preparation, paintwork and coating curing can affect turnaround. Confirm the schedule with the studio before booking.</p>
+          </details>
+          <details>
+            <summary>Can polishing remove every scratch?</summary>
+            <p>No. Some surface marks may improve with correction, while deeper damage can require paint repair. An inspection helps establish what can be safely achieved.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact container" id="contact">
+      <div class="contact-panel">
+        <div class="contact-copy">
+          <p class="eyebrow">Your next upgrade starts here</p>
+          <h2>LET’S TALK<br>ABOUT<br><span style="color:var(--accent)">YOUR BIKE.</span></h2>
+          <p class="muted">A quick refresh or a whole new personality? Tell us what you’re riding and what you have in mind.</p>
+
+          <div class="location">
+            <span>↗</span>
+            <div>Pune, Maharashtra<br><small class="muted">Studio address to be added</small></div>
+          </div>
+
+          <span class="demo-tag">CONCEPT WEBSITE · DEMO ENQUIRIES ONLY</span>
+        </div>
+
+        <form id="enquiry-form">
+          <div class="form-row">
+            <label>Your name
+              <input name="name" autocomplete="name" placeholder="Your full name" maxlength="80" required>
+            </label>
+            <label>Mobile number
+              <input name="phone" type="tel" autocomplete="tel"
+                     placeholder="10-digit mobile number"
+                     inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10"
+                     title="Enter a valid 10-digit Indian mobile number" required>
+            </label>
+          </div>
+
+          <label>Your motorcycle
+            <input name="bike" placeholder="e.g. Royal Enfield Hunter 350" maxlength="100" required>
+          </label>
+
+          <label>What are you looking for?
+            <select name="service" id="service-select" required>
+              <option value="">Select a service</option>
+              <option>PPF & Vinyl Wrapping</option>
+              <option>Denting & Painting</option>
+              <option>Rubbing & Polishing</option>
+              <option>Deep Cleaning</option>
+              <option>Ceramic Coating</option>
+              <option>Premium Bike Wash</option>
+              <option>Graphene Coating</option>
+              <option>Custom Detailing</option>
+              <option>Help me choose</option>
+            </select>
+          </label>
+
+          <label>Anything else?
+            <textarea name="message" placeholder="Tell us about your preferred finish or your bike’s condition…" maxlength="1000"></textarea>
+          </label>
+
+          <button class="button" type="submit">Preview enquiry <span>↗</span></button>
+          <p class="form-note">Demo only. This form does not send, save or confirm a booking.</p>
+          <div class="form-success" id="form-success" role="status" hidden></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="logo" href="#">REVIVE<span>®</span><small>MOTO STUDIO / PUNE</small></a>
+      <p>© <span id="year"></span> REVIVE Moto Studio. Concept demo.</p>
+      <a class="back-top" href="#">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector('.menu-button');
+    const navigation = document.getElementById('navigation');
+
+    function closeMenu() {
+      navigation.classList.remove('open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.setAttribute('aria-label', 'Open menu');
+      menuButton.textContent = '☰';
+    }
+
+    menuButton.addEventListener('click', () => {
+      const isOpen = navigation.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(isOpen));
+      menuButton.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      menuButton.textContent = isOpen ? '✕' : '☰';
+    });
+
+    navigation.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeMenu();
+    });
+
+    document.querySelectorAll('.filter').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.filter').forEach(filter => {
+          filter.setAttribute('aria-pressed', String(filter === button));
+        });
+
+        document.querySelectorAll('.service-card').forEach(card => {
+          card.hidden = button.dataset.filter !== 'all' &&
+                        card.dataset.category !== button.dataset.filter;
+        });
+      });
+    });
+
+    document.querySelectorAll('[data-service]').forEach(button => {
+      button.addEventListener('click', () => {
+        document.getElementById('service-select').value = button.dataset.service;
+        document.getElementById('contact').scrollIntoView({
+          behavior: matchMedia('(prefers-reduced-motion: reduce)').matches
+            ? 'instant' : 'smooth'
+        });
+      });
+    });
+
+    document.getElementById('enquiry-form').addEventListener('submit', event => {
+      event.preventDefault();
+
+      const form = event.currentTarget;
+      const data = new FormData(form);
+      const success = document.getElementById('form-success');
+
+      success.textContent =
+        `Thanks, ${String(data.get('name')).trim()}! Your demo enquiry for ` +
+        `${data.get('service')} on your ${String(data.get('bike')).trim()} ` +
+        `is ready. No enquiry has been sent and no appointment has been booked.`;
+
+      success.hidden = false;
+    });
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
